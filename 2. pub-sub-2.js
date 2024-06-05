@@ -1,5 +1,5 @@
 class PubSubAdvanced {
-  #asyncSubscriveMap = new Map();
+  #asyncSubscribeMap = new Map();
   #eventsToCallbackMap = new Map();
   #eventsToOnlyOnceCallbackMap = new Map();
 
@@ -31,11 +31,11 @@ class PubSubAdvanced {
 
   subscribeAsync(event) {
     return new Promise((resolve) => {
-      if (!this.#asyncSubscriveMap.has(event))
-        this.#asyncSubscriveMap.set(event, [resolve]);
+      if (!this.#asyncSubscribeMap.has(event))
+        this.#asyncSubscribeMap.set(event, [resolve]);
       else {
-        const existingFns = this.#asyncSubscriveMap.get(event) || [];
-        this.#asyncSubscriveMap.set(event, existingFns.concat([resolve]));
+        const existingFns = this.#asyncSubscribeMap.get(event) || [];
+        this.#asyncSubscribeMap.set(event, existingFns.concat([resolve]));
       }
     });
   }
@@ -58,7 +58,7 @@ class PubSubAdvanced {
         });
       });
 
-      this.#asyncSubscriveMap.forEach((fns) => {
+      this.#asyncSubscribeMap.forEach((fns) => {
         fns?.forEach((fn) => fn?.(data));
       });
 
@@ -89,17 +89,17 @@ class PubSubAdvanced {
 
 const pubsubAdvanced = new PubSubAdvanced();
 
-// pubsubAdvanced.subscribeOnce('greet', console.log);
-// pubsubAdvanced.subscribeOnce('hello', console.log);
+pubsubAdvanced.subscribeOnce('greet', console.log);
+pubsubAdvanced.subscribeOnce('hello', console.log);
 
-// pubsubAdvanced.subscribe('user_created', console.log)();
-// pubsubAdvanced.publishAll('User created.');
+pubsubAdvanced.subscribe('user_created', console.log)();
+pubsubAdvanced.publishAll('User created.');
 
-// pubsubAdvanced.publish('greet', 'Hi, Nilotpal.');
-// pubsubAdvanced.publish('hello', 'Hello, World.');
+pubsubAdvanced.publish('greet', 'Hi, Nilotpal.');
+pubsubAdvanced.publish('hello', 'Hello, World.');
 
-// pubsubAdvanced.publish('greet', 'Hi, Nilotpal.');
-// pubsubAdvanced.publish('hello', 'Hello, World.');
+pubsubAdvanced.publish('greet', 'Hi, Nilotpal.');
+pubsubAdvanced.publish('hello', 'Hello, World.');
 
 pubsubAdvanced.subscribeAsync('meow').then(console.log);
 pubsubAdvanced.publishAll('Hello Meow');
