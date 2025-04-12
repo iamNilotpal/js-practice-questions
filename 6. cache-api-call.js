@@ -1,7 +1,7 @@
 function generateKey(url, config = {}) {
   const keys = Object.keys(config);
   let configKey = '';
-  keys.map((key) => (configKey += `${key}:${config[key]}`));
+  keys.forEach((key) => (configKey += `${key}:${config[key]}`));
   return `${url}-${configKey}`;
 }
 
